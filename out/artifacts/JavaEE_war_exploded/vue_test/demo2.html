@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Vue</title>
+</head>
+<body>
+
+<div id="app">
+    <button type="button" v-on:click="fn">vue添加事件</button>
+    <!--缩写-->
+    <button type="button" @click="fn">vue添加事件</button>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:'#app',
+        // date属性
+        data:{
+
+        },
+        // 方法属性
+        methods:{
+            fn:function(){
+                alert("vue事件添加成功");
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

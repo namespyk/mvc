@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaEE</title>
+</head>
+<body>
+
+<!--
+    /test2?name=abc&desc=汉字
+    完整的写法如下
+    http://IP或域名：端口/应用上下文/test2?name=abc&desc=汉字
+    如果没有应用上下文，则表示为：
+    http://IP或域名：端口test2?name=abc&desc=汉字
+    一般情况下，我们的应用都会有应用上下文
+
+    在本列中，访问的路径为：
+    http://localhost:8090/test2 ? name=abc & desc=汉字
+    ？号前面是url，url是同一资源定位符（实际上整体都称作url）
+    ？后面是当前连接，传送到后台的参数
+
+    多个参数之间用 & 隔开
+    同一个参数包含：参数名称=参数值
+    url中不允许空格
+
+    改 html 代码不需要重启
+    改 java 代码必须重启，否则不生效
+-->
+
+<a href="/test2?name=abc&desc=汉字">get方法获取参数</a>
+<br/>
+<a href="/test/add_student.html" target="_blank">添加学生信息页面</a>
+<br/>
+<a href="/test/add_teacher.html" target="_blank">添加教师信息页面</a>
+<br/>
+<a href="/test/query_student.html" target="_blank">学生信息查询</a>
+<br/>
+<a href="test/query_teacher.html" target="_blank">教师信息查询</a>
+<br/>
+<a href="elementui/student/student.html" target="_blank">学生信息管理</a>
+<br/>
+<a href="elementui/teacher/teacher.html" target="_blank">教师信息管理</a>
+<br/>
+<a href="elementui/login/login.html" target="_blank">学生登录</a>
+
+</body>
+</html>

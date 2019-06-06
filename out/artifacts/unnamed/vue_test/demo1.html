@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Vue</title>
+</head>
+<body>
+
+<div id="app">
+    <input name="name" v-bind:value="name"/>
+    <!--可缩写-->
+    <input name="name" :value="name"/>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:'#app',
+        data:{
+            name:"张三"
+        }
+    });
+</script>
+
+</body>
+</html>

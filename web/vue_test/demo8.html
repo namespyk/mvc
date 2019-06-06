@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全局注册</title>
+</head>
+<body>
+
+<div id="app">
+    <select v-model="level">
+        <option v-for="i in 3">{{i}}</option>
+    </select>
+
+    <addr-casecade label="出发地" :level="level"></addr-casecade>
+    <addr-casecade label="到达地"></addr-casecade>
+</div>
+
+<script src="../js/vue.js"></script>
+<script src="../vue_test/pca.js"></script>
+<script src="addr-casecade.js"></script>
+<script>
+    var app = new Vue({
+        el : '#app',
+        data :{
+            level: 3
+        },
+        computed:{
+
+        }
+    });
+</script>
+</body>
+</html>

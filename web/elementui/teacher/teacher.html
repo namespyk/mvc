@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>教师信息管理</title>
+    <link rel="stylesheet" href="../../css/index.css"/>
+</head>
+<body>
+
+<div id="app">
+    <el-form ref="form" :rules="rules" :model="formData" label-width="80px"> <!--model(模型) reles(规则)-->
+        <el-row>
+
+            <el-col :span="5">
+                <el-form-item label="姓名" prop="name">
+                    <el-input v-model="formData.name" placeholder="请输入姓名"></el-input>
+                </el-form-item>
+            </el-col>
+
+            <el-col :span="5">
+                <el-form-item label="开始年龄" prop="start">
+                    <el-input v-model="formData.start" placeholder="请输入开始年龄"></el-input>
+                </el-form-item>
+            </el-col>
+
+            <el-col :span="5">
+                <el-form-item label="结束年龄" prop="end">
+                    <el-input v-model="formData.end" placeholder="请输入结束年龄"></el-input>
+                </el-form-item>
+            </el-col>
+
+            <el-col :span="5">
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('form')" :loading="loading">提交</el-button>
+                    <el-button @click="resetForm('form')">重置</el-button>
+                </el-form-item>
+            </el-col>
+
+        </el-row>
+    </el-form>
+
+    <el-table
+        size="mini"
+        v-loading="loading"
+        :data="rsData"
+        height="300"
+        style="width: 100%">
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>  <!--selection(选择) -->
+        <el-table-column
+            prop="id"
+            label="id"
+            width="200">
+        </el-table-column>
+        <el-table-column
+            prop="name"
+            label="姓名"
+            width="200">
+        </el-table-column>
+        <el-table-column
+            prop="age"
+            label="年龄"
+            width="200">
+        </el-table-column>
+        <el-table-column
+            prop="sex"
+            label="性别"
+            width="200">
+        </el-table-column>
+        <el-table-column
+            prop="college"
+            label="学院"
+            width="200">
+        </el-table-column>
+        <el-table-column
+            prop="subject"
+            label="系部"
+            width="200">
+        </el-table-column>
+        <el-table-column label="操作">
+            <template slot-scope="scope">
+                <el-button
+                    size="mini"
+                    type="text"
+                    icon="el-icon-edit"
+                    @click="handleEdit(scope.$index, scope.row)"></el-button>
+                <el-button
+                    type="text"
+                    icon="el-icon-delete"
+                    @click="handleDelete(scope.$index, scope.row)"></el-button>
+            </template>
+        </el-table-column>
+
+    </el-table>
+
+
+
+
+
+
+    <div align="right"> <!--导航条-->
+        <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="formData.curPage"
+                :page-sizes="[5, 10, 15, 20]"
+                :page-size="formData.pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="formData.total">
+        </el-pagination>
+    </div>
+
+
+
+    <el-dialog :title="title" :visible.sync="updateDialogVisible">
+        <el-form ref="formEdit" :rules="rulesEdit" :model="formDataEdit" label-width="80px">
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="姓名" prop="name">
+                        <el-input v-model="formDataEdit.name" placeholder="请输入姓名" size="small"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="年龄" prop="age">
+                        <el-input v-model.number="formDataEdit.age" placeholder="请输入年龄" size="small"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="性别" prop="sex">
+                        <el-radio-group v-model="formDataEdit.sex" size="small">
+                            <el-radio :label="1" border>男</el-radio>
+                            <el-radio :label="0" border>女</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="学院" prop="college">
+                        <el-select v-model="formDataEdit.college" placeholder="请选择学院">
+                            <el-option :key="0" label="请选择学院" :value="0" disabled></el-option>
+                            <el-option
+                                    v-for="item in colleges"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24">
+                    <el-form-item label="系部" prop="subject">
+                        <el-select v-model="formDataEdit.subject" placeholder="请选择系部">
+                            <el-option :key="0" label="请选择系部" :value="0" disabled></el-option>
+                            <el-option
+                                v-for="item in subjects"
+                                :key="item.value"
+                                :label="item.lable"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="updateDialogVisible = false" size="small">取 消</el-button>
+            <el-button
+                    v-if="title == '修改'"
+                    type="primary"
+                    @click="submitEditForm('formEdit')"
+                    size="small"
+                    :loading="updateBtnLoading">提 交</el-button>
+            <el-button
+                    v-if="title == '添加'"
+                    type="primary"
+                    @click="submitAddForm('formEdit')"
+                    size="small"
+                    :loading="updateBtnLoading">提 交</el-button>
+        </div>
+    </el-dialog>
+</div>
+</body>
+<script src="../../js/vue.js"></script>
+<script src="../../js/element.js"></script>
+<script src="../../js/axios.min.js"></script>
+<script>
+    var app = new Vue({
+       el: '#app',
+       data: function(){
+           return{
+               loading: false,
+               rsData:[],
+               formData:{
+                   name:'',
+                   start:'',
+                   end:'',
+                   curPage:1,
+                   pageSize: 5,
+                   total: 0
+               },
+               formDataEdit:{
+                   name:'-100',
+                   age:'',
+                   sex:1,
+                   college:'',
+                   subject:''
+               },
+
+               title : "修改",
+               updateDialogVisible: false,
+               // updateBtnLoading: false,
+
+               rules:{  //规则
+                   name:[{
+                       min: 1,
+                       max: 10,
+                       message: '*长度在 1 到 10 个字符',
+                       trigger: 'blur'
+                   }],
+                   start:[{
+                       pattern: /^\d*$/,    //正则表达式
+                       message: '*必须是数字',   //消息
+                       trigger: 'blur'  //触发
+                   },{
+                       min: 1,
+                       max: 3,
+                       message: '*年龄不符合',
+                       trigger: 'blur'
+                   }],
+                   end:[{
+                       pattern: /^\d*$/,
+                       message: '*必须是数字',
+                       trigger: 'blur'
+                   },{
+                       min: 1,
+                       max: 3,
+                       message: '*年龄不符合',
+                       trigger: 'blur'
+                   }]
+               },
+               rulesEdit:{  // 修改规则
+                   name:[{
+                       min: 1,
+                       max: 10,
+                       message: '长度在 1 到 10 个字符',
+                       trigger: 'blur'
+                   },{
+                       required: true, //必填
+                       message: '请输入姓名',
+                       trigger: 'blur'
+                   }],
+                   age:[{
+                       pattern:/^\d+$/,
+                       message: '年龄必须为数字值',
+                       trigger: 'blur',
+                       required: true
+                   },{
+                       type:'number',
+                       min: 1,
+                       max: 150,
+                       trigger: 'blur',
+                       message: '年龄超出范围',
+                   }],
+                   sex:[{
+                       required: true,
+                       message: '请选择性别',
+                       trigger: 'blur'
+                   }],
+                   college:[{
+                       required: true,
+                       message: '请选择学院',
+                       trigger: 'blur'
+                   }],
+                   subject:[{
+                       required: true,
+                       message: '请选择系部',
+                       trigger: 'blur'
+                   }],
+               },
+               colleges:[{
+                   label:"四川长江职业学院",
+                   value:1
+               },{
+                   label:"四川科技职业学院",
+                   value:2
+               }],
+               subjects:[{
+                   label:"鼎利学院",
+                   value:1
+               },{
+                   label:"经济管理系",
+                   value:2
+               }]
+
+
+           }
+       },
+
+        mounted:function(){ //首次加载
+           this.submitForm('form');
+        },
+        methods:{   //方法
+           submitForm(formName) {
+               var _this = this;
+               var data = this.formData;
+               this.$refs[formName].validate((valid) => {
+                   if (valid) {
+                       _this.loading = true;
+                       axios.post('/teacher/query',data).then(function (response) {
+                           var pager = response.data;
+                           _this.rsData = pager.list;
+                           _this.formData.pageSize = pager.pageSize;
+                           _this.formData.total = pager.total;
+                           _this.formData.curPage = pager.curPage;
+                           _this.loading = false;
+                       });
+                   } else {
+                       console.log('error submit!!');
+                       return false;
+                   }
+               });
+           },
+            resetForm(formName){
+                this.$refs[formName].resetFields();
+            },
+            // 每页显示多少条改变后触发
+            handleSizeChange(val){
+               this.formData.pageSize = val;
+               this.submitForm('form');
+            },
+            // 当前页改变后触发
+            handleCurrentChange(val){
+               this.formData.curPage = val;
+               this.submitForm('form');
+            },
+
+            handleEdit:function (index, row) {
+                if(index != undefined) {
+                    this.title = "修改";
+                    this.formDataEdit.id = row.id;
+                    this.formDataEdit.name = row.name;
+                    this.formDataEdit.age = row.age;
+                    this.formDataEdit.college = row.college;
+                    this.formDataEdit.subject = row.subject;
+                } else {
+                    this.title = "添加";
+                    this.formDataEdit.id = "";
+                    this.formDataEdit.name = "";
+                    this.formDataEdit.age = "";
+                    this.formDataEdit.college = "";
+                    this.formDataEdit.subject = "";
+                }
+                this.updateDialogVisible = true;
+            },
+            submitEditForm(formName) {
+                var _this = this;
+                var data = this.formDataEdit;
+                data.favs = data.fav.join(",");
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        _this.updateBtnLoading = true;
+                        axios.post('/student/update',data).then(function (response) {
+                            _this.$message({
+                                message: response.data.msg,
+                                type: 'success',
+                                duration: 500,
+                                onClose:function () {
+                                    _this.updateBtnLoading = false;
+                                    _this.updateDialogVisible = false;
+                                    _this.submitForm('form');
+                                }
+                            });
+                        });
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+
+        }
+    });
+</script>
+</html>

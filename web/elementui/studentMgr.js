@@ -1,0 +1,6 @@
+var studentMgr = {
+    template:`
+        <div>
+        
+    `
+}

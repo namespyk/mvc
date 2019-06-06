@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Vue</title>
+</head>
+<body>
+
+<div id="app">
+    <h1>Hello {{msg}}</h1>
+    &lt;p&gt;我是HTML代码&lt;/p&gt;
+    <p>我是一个HTML元素</p>
+    {{html}}
+    <div v-html="html"></div>
+
+</div>
+<script src="../js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:'#app',
+        data:{
+            msg : "vue",
+            html:"<h2>我是一个h2元素</h2>"
+        }
+    });
+</script>
+
+</body>
+</html>

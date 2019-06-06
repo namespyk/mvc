@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生管理系统</title>
+    <link rel="stylesheet" href="../../css/index.css"/>
+</head>
+<body>
+<div id="app">
+    <h1 align="center">学生信息添加</h1>
+    <br/>
+    <el-form ref="add" :rules="rules" :model="addData" label-width="80px">
+        <el-row>
+            <el-col :span="6">
+                <el-form-item label="姓名：" prop="name">
+                    <el-input v-model="addData.name" placeholder="请输入姓名"></el-input>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">
+                <el-form-item label="年龄：" prop="age">
+                    <el-input v-model="addData.age" placeholder="请输入年龄"></el-input>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">
+                <el-form-item label="性别：" prop="sex">
+                    <el-radio-group v-model="addData.sex">
+                        <el-radio label="男"></el-radio>
+                        <el-radio label="女"></el-radio>
+                    </el-radio-group>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">
+                <el-form-item label="爱好：" prop="favs">
+                    <el-checkbox-group v-model="addData.fav">
+                        <el-checkbox label="游泳" name="fav"></el-checkbox>
+                        <el-checkbox label="篮球" name="fav"></el-checkbox>
+                        <el-checkbox label="足球" name="fav"></el-checkbox>
+                        <el-checkbox label="乒乓" name="fav"></el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">
+                <el-form-item label="学历：" prop="edu">
+                    <el-select v-model="addData.edu" placeholder="请选择学历">
+                        <el-option label="本科" value="1"></el-option>
+                        <el-option label="大专" value="2"></el-option>
+                        <el-option label="高中" value="3"></el-option>
+                        <el-option label="初中" value="4"></el-option>
+                        <el-option label="小学" value="5"></el-option>
+                        <el-option label="幼儿园" value="6"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">
+                <el-form-item label="自我介绍" prop="desc">
+                    <el-input type="textarea" v-model="addData.desc"></el-input>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('ruleForm')">添加</el-button>
+                    <el-button @click="resetForm('ruleForm')">重置</el-button>
+                </el-form-item>
+            </el-col>
+        </el-row>
+    </el-form>
+</div>
+</body>
+<script src="../../js/vue.js"></script>
+<script src="../../js/element.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data:function () {
+            return {
+                addData:{
+                    name:'',
+                    age: '',
+                    sex:'',
+                    fav:[],
+                    edu:'',
+                    desc:''
+                },
+                rules:{
+                    name:[{
+                        min: 3,
+                        max: 10,
+                        message: '长度在 3 到 10 个字符',
+                        trigger: 'blur'
+                    }],
+                    age:[{
+                        pattern: /^\d*$/,
+                        message: '必须是数字',
+                        trigger: 'blur'
+                    }],
+                    desc:[{
+                        min: 10,
+                        max: 80,
+                        message: '至少 10 个字符，上限 80 个字符',
+                        trigger: 'blur'
+                    }]
+                },
+
+            }
+        },
+        methods: {
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            }
+        }
+
+    });
+
+</script>
+</html>

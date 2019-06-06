@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Vue</title>
+</head>
+<body>
+
+<div id="app">
+
+    <label>起始站：</label>
+    <select v-model="line_start">
+        <option v-for="line of metro" :value="line.id">{{line.name}}</option>
+    </select>
+    <select v-model="start">
+        <option v-for="stat of stat_start" :value="stat.index">{{stat.name}}</option>
+    </select>
+    <h2>您所在的线：{{line_start}}</h2>
+    <h2>起始站 index：{{start}}</h2>
+    <br/>
+
+    <label>终点站：</label>
+    <select v-model="line_end">
+        <option v-for="line of metro" :value="line.id">{{line.name}}</option>
+    </select>
+    <select v-model="end">
+        <option v-for="stat of stat_start" :value="stat.index">{{stat.name}}</option>
+    </select>
+    <h2>您前往的线：{{line_end}}</h2>
+    <h2>终点站 index：{{end}}</h2>
+
+    <h2>经过的站点：{{Math.abs(end - start)}}</h2>
+</div>
+
+<script src="../js/vue.js"></script>
+<script src="metro.js"></script>
+<script>
+    var app = new Vue({
+        el:'#app',
+        // data属性
+        data:{
+            line_start:1,// 开始站点所在线路
+            line_end:1,
+            start: '',// 开始站点
+            end:'',
+            metro:metro
+        },
+        // 计算属性
+        computed:{
+            stat_start:function () {
+                // this 表示当前vue对象
+                /**
+                 * this.xxx 这个xxx表示调用的data的属性或者methods属性中的方法
+                 * 如果要调用vue自己的属性如：data等
+                 * this.$data
+                 */
+                for(var index in this.metro){
+                    if(this.metro[index].id == this.line_start){
+                        return this.metro[index].stations;
+                    }
+                }
+                return [];
+            },
+            en_end:function (){
+                for(var index in this.metro){
+                    if(this.metro[index].id == this.line_end){
+                        return this.metro[index].station;
+                    }
+                }
+                return [];
+            }
+
+        },
+
+        // 方法属性
+        methods:{
+
+        },
+        // 过滤器属性
+        filters:{
+
+        }
+    });
+</script>
+
+</body>
+</html>

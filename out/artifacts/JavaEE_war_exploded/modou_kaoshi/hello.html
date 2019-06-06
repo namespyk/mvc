@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="../css/index.css"/>
+</head>
+<body>
+<div id="app">
+    <form>
+        <el-input v-model="yonghu" placeholder="请输入用户名"></el-input>
+        <el-input v-model="password" placeholder="请输入密码"></el-input>
+    </form>
+</div>
+
+</body>
+<script src="../js/vue.js"></script>
+<script src="../js/element.js"></script>
+<script src="../js/axios.min.js"></script>
+<script>
+    var app = Vue({
+       el :'#app' ,
+        data:function(){
+           return {
+
+           }
+        }
+    });
+</script>
+</html>

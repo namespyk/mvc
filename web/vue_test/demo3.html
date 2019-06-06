@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Vue</title>
+</head>
+<body>
+
+<div id="app">
+    <h1>{{num}}</h1>
+    <h1 v-if="num == 1">当num等于1时运行</h1>
+    <h1 v-else-if="num == 2">当num等于2时运行</h1>
+    <h1 v-else>当num不等于1和2时候运行</h1>
+
+    <h1 v-show="num == 1">当num等于1时 show运行</h1>  //show 只有显示和不显示
+
+    <input type="text" v-model="num"/>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:'#app',
+        // data属性
+        data:{
+            num:2
+        },
+        // 方法属性
+        methods:{
+            fn:function(){
+
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

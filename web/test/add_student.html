@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加学生信息</title>
+</head>
+<body>
+
+<!--
+action属性：表示表单提交到url
+method属性：表示用什么方法提交，只有两个方法get、post，默认是get提交
+-->
+<form action = "/test3" method = "get">
+    <label>姓名：</label>
+    <input name = "name" type = "test" placeholder = "请输入姓名"/>
+    <br/>
+    <label>年龄：</label>
+    <input name = "age" type = "number" placeholder = "请输入年龄"/>
+    <br/>
+    <label>性别：</label>
+    <input name = "sex" type = "radio" value = "1"/><label>男</label>
+    <input name = "sex" type = "radio" value = "0"/><label>女</label>
+    <br/>
+    <label>爱好：</label>
+    <input name = "fav" type = "checkbox" value = "1"/><label>游泳</label>
+    <input name = "fav" type = "checkbox" value = "2"/><label>篮球</label>
+    <input name = "fav" type = "checkbox" value = "3"/><label>足球</label>
+    <input name = "fav" type = "checkbox" value = "4"/><label>乒乓</label>
+    <br/>
+    <label>学历</label>
+    <select name = "edu">
+        <option value = "1">幼儿园</option>
+        <option value = "2">小学</option>
+        <option value = "3">初中</option>
+        <option value = "4">高中</option>
+        <option value = "5">大专</option>
+        <option value = "6">本科</option>
+    </select>
+    <br/>
+    <label>自我介绍</label>
+    <textarea name = "desc" cols = "20" rows = "5">
+
+    </textarea>
+
+    <button type = "submit">提交</button>
+    <button type = "reset">重置</button>
+</form>
+
+<!--name属性为必须，表示参数的名称-->
+</body>
+</html>

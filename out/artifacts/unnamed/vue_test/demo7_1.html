@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三级菜单</title>
+</head>
+<body>
+
+<div id="app">
+    <label>地址：</label>
+    <select v-model="v1">
+        <option value="" disabled>选择省</option>
+        <option v-for="prov of list1" :value="prov.code">{{prov.name}}</option>
+    </select>
+    <select v-model="v2">
+        <option value="" disabled>选择市</option>
+        <option v-for="prov of list2" :value="prov.code">{{prov.name}}</option>
+    </select>
+    <select v-model="v3">
+        <option value="" disabled>选择区</option>
+        <option v-for="prov of list3" :value="prov.code">{{prov.name}}</option>
+    </select>
+</div>
+
+<script src="../js/vue.js"></script>
+<script src="../vue_test/pca.js"></script>
+<script>
+    var app = new Vue({
+        el : '#app',
+        data :{
+            list1 : pca,
+            v1 : '',
+            v2 : '',
+            v3 : ''
+        },
+
+        computed:{//计算属性
+            list2: function(){
+                return this.getList(this.list1,this.v1);
+            },
+            list3: function(){
+                return this.getList(this.list2,this.v2);
+            }
+        },
+
+        methods:{//方法属性
+            getList: function(list,code){
+                for(el of list){
+                    if(el.code == code){
+                        return el.children;
+                    }
+                }
+                return [];
+            }
+        }
+
+    });
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>教师信息查询页面</title>
+</head>
+<body>
+<div>
+
+    <form action="/test6" method="post">
+
+        <label>姓名：</label>
+        <input name="name" type="text" onblur="checkName();"/>
+        <span id="nameCheck" style="display: none;color: red;">姓名长度在5~20</span>
+        <br/>
+        <label>年龄：</label>
+        <input name="age_s" type="number" onblur="checkAge();"/>
+        <label>至：</label>
+        <input name="age_e" type="number" onblur="checkAge();"/>
+        <br/>
+        <span id="age_sc" style="display: none;color: red;">年龄不符合格式0~150</span>
+        <span id="age_ec" style="display: none;color: red;">开始不能大于结束</span>
+        <br/>
+
+        <button type="submit" onclick="return commit();">提交</button>
+    </form>
+
+    <script>
+
+        function isEmpty(v) {
+
+            if(v != null && v.trim() != ""){
+                return false;
+            }
+
+            return true;
+        }
+
+        function checkName() {
+            var name = document.getElementsByName("name")[0].value;
+
+            if(!isEmpty(name) && (name.length < 5 || name.length > 20)){
+                document.getElementById("nameCheck").style.display = "inline";
+                return false;
+            }else {
+                document.getElementById("nameCheck").style.display = "none";
+            }
+        }
+
+        function checkAge() {
+            document.getElementById("age_sc").style.display = "none";
+            document.getElementById("age_ec").style.display = "none";
+
+            var ageS = document.getElementsByName("age_s")[0].value;
+            var ageE = document.getElementsByName("age_e")[0].value;
+
+            if(!isEmpty(ageS) && (ageS > 150 || ageS < 0)){
+                document.getElementById("age_sc").style.display = "inline";
+                return false;
+            }
+
+            if(!isEmpty(ageE) && (ageE > 150 || ageE < 0)){
+                document.getElementById("age_sc").style.display = "inline";
+                return false;
+            }
+
+            if(!isEmpty(ageE) && !isEmpty(ageS) && parseInt(ageS) > parseInt(ageE)){
+                document.getElementById("age_ec").style.display = "inline";
+                return false;
+            }
+
+            return true;
+        }
+
+
+        function commit() {
+
+            if(checkName() == false || checkAge() == false){
+                alert("表单输入错误");
+                return false;
+            }
+
+            return true;
+        }
+
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Vue</title>
+    <style>
+        .table{
+            border-collapse:collapse;
+            border:black solid 1px;
+        }
+        .table td{
+            border-collapse:collapse;
+            border:black solid 1px;
+            padding:5px 10px;
+        }
+        .table tr{
+             border-collapse:collapse;
+             border:black solid 1px;
+             padding:5px 10px;
+         }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <table class="table">
+        <tr>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>性别</th>
+            <th>自我介绍</th>
+        </tr>
+        <tr v-for="p in list">
+            <td>{{p.name}}</td>
+            <td>{{p.age}}</td>
+            <td>{{p.sex | sexFilter}}</td>
+            <td>{{p.desc}}</td>
+        </tr>
+    </table>
+
+</div>
+<script src="../js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:'#app',
+        // data属性
+        data:{
+            list:[{
+                name: "张三",
+                age: 16,
+                sex: 1,
+                desc: '自我介绍'
+            },{
+                name: "李四",
+                age: 18,
+                sex: 1,
+                desc: '了解一波'
+            },{
+                name: "依依",
+                age: 15,
+                sex: 0,
+                desc: '萌萌哒'
+            }]
+        },
+        // 方法属性
+        methods:{
+
+        },
+        // 过滤器属性
+        filters:{
+            sexFilter:function (v){
+                return v==0 ?'女':'男';
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
